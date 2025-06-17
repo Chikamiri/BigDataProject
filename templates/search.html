@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Film Search</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            h1 {
+                color: #333;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+            input[type="text"] {
+                padding: 8px;
+                width: 300px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            input[type="submit"] {
+                padding: 8px 15px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+            .film-list {
+                list-style: none;
+                padding: 0;
+            }
+            .film-list li {
+                background-color: #f9f9f9;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #eee;
+            }
+            .film-list a {
+                text-decoration: none;
+                color: #333;
+                font-weight: bold;
+            }
+            .film-list a:hover {
+                color: #007bff;
+            }
+            .film-meta {
+                font-size: 0.9em;
+                color: #666;
+            }
+            .nav-button {
+                display: inline-block;
+                padding: 8px 12px;
+                margin: 5px;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+            }
+            .nav-button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Search Films</h1>
+        <form method="POST" action="/search">
+            <input
+                type="text"
+                name="query"
+                placeholder="Enter film title"
+                value="{{ query }}"
+            />
+            <input type="submit" value="Search" />
+        </form>
+
+        <div class="navigation-controls" style="margin-bottom: 20px">
+            <a href="{{ url_for('index') }}" class="nav-button"
+                >Back to Homepage</a
+            >
+        </div>
+
+        {% if films %}
+        <h2>Search Results:</h2>
+        <ul class="film-list">
+            {% for film in films %}
+            <li>
+                <a href="{{ url_for('film_details', imdb_id=film.imdb_id) }}">
+                    {{ film.title }} ({{ film.release_year }})
+                </a>
+                <div class="film-meta">
+                    IMDb: {{ "%.1f"|format(film.imdb_score) }} | Genres: {{
+                    film.genres|join(', ') }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% elif query %}
+        <p>No films found matching "{{ query }}"</p>
+        {% endif %}
+    </body>
+</html>

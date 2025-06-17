@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ film.title }} Details</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            h1 {
+                color: #333;
+            }
+            .film-info p {
+                margin: 5px 0;
+            }
+            .film-info strong {
+                display: inline-block;
+                width: 120px;
+            }
+            .recommendations {
+                margin-top: 30px;
+                border-top: 1px solid #eee;
+                padding-top: 20px;
+            }
+            .recommendations h2 {
+                color: #333;
+            }
+            .recommendation-list {
+                list-style: none;
+                padding: 0;
+            }
+            .recommendation-list li {
+                background-color: #f9f9f9;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #eee;
+            }
+            .recommendation-list .title {
+                font-weight: bold;
+                color: #333;
+            }
+            .recommendation-list .meta {
+                font-size: 0.9em;
+                color: #666;
+            }
+            .back-link {
+                display: block;
+                margin-top: 20px;
+                color: #007bff;
+                text-decoration: none;
+            }
+            .back-link:hover {
+                text-decoration: underline;
+            }
+            .pagination-controls {
+                margin-top: 15px;
+                text-align: center;
+            }
+            .pagination-controls a {
+                display: inline-block;
+                padding: 8px 12px;
+                margin: 0 5px;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+            }
+            .pagination-controls a:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{{ film.title }} ({{ film.release_year }})</h1>
+
+        <div class="film-info">
+            <p>
+                <strong>IMDb Score:</strong> {{ "%.1f"|format(film.imdb_score)
+                }}
+            </p>
+            <p><strong>Genres:</strong> {{ film.genres|join(', ') }}</p>
+            <p><strong>Description:</strong> {{ film.description }}</p>
+        </div>
+
+        <div class="recommendations">
+            <h2>Recommendations:</h2>
+            {% if recommendations %}
+            <ul class="recommendation-list">
+                {% for rec in recommendations %}
+                <li>
+                    <div class="title">
+                        {{ rec.title }} ({{ rec.release_year }})
+                    </div>
+                    <div class="meta">
+                        IMDb: {{ "%.1f"|format(rec.imdb_score) }} | Genres: {{
+                        rec.genres|join(', ') }}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div id="recommendation-pagination">
+                <a
+                    href="{{ url_for('get_recommendations_paginated', imdb_id=film.imdb_id, page=2) }}"
+                    >Next Page</a
+                >
+            </div>
+            {% else %}
+            <p>No recommendations found for this film.</p>
+            {% endif %}
+        </div>
+
+        <a href="/search" class="back-link">Back to Search</a>
+    </body>
+</html>

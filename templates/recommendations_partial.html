@@ -1,0 +1,78 @@
+{% if recommendations %}
+<ul class="recommendation-list">
+    {% for rec in recommendations %}
+    <li class="recommendation-item">
+        <h3>{{ rec.title }} ({{ rec.release_year }})</h3>
+        <p><strong>IMDb Score:</strong> {{ "%.1f"|format(rec.imdb_score) }}</p>
+        <p><strong>Genres:</strong> {{ rec.genres|join(', ') }}</p>
+        {% if rec.description %}
+        <p><strong>Description:</strong> {{ rec.description }}</p>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<div class="pagination-controls">
+    {% if current_page > 1 %}
+    <a
+        href="{{ url_for('get_recommendations_paginated', imdb_id=imdb_id, page=current_page - 1) }}"
+        class="pagination-button"
+        >Previous Page</a
+    >
+    {% endif %} {% if current_page < total_pages %}
+    <a
+        href="{{ url_for('get_recommendations_paginated', imdb_id=imdb_id, page=current_page + 1) }}"
+        class="pagination-button"
+        >Next Page</a
+    >
+    {% endif %}
+</div>
+<div class="navigation-controls" style="margin-top: 20px">
+    <a href="{{ url_for('film_details', imdb_id=imdb_id) }}" class="nav-button"
+        >Back to Film Information</a
+    >
+    <a href="{{ url_for('search') }}" class="nav-button">Back to Search</a>
+</div>
+{% else %}
+<p>No recommendations found for this film.</p>
+{% endif %}
+
+<style>
+    .pagination-button,
+    .nav-button {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 5px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .pagination-button:hover,
+    .nav-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Styles copied from film_details.html for consistency */
+    .recommendation-list {
+        list-style: none;
+        padding: 0;
+    }
+    .recommendation-list li {
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #eee;
+    }
+    .recommendation-list h3 {
+        font-weight: bold;
+        color: #333;
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    .recommendation-list p {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 3px;
+    }
+</style>

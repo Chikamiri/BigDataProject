@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Generated Images</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            h1 {
+                color: #333;
+            }
+            .image-list {
+                list-style: none;
+                padding: 0;
+            }
+            .image-list li {
+                margin-bottom: 10px;
+            }
+            .image-list a {
+                text-decoration: none;
+                color: #007bff;
+            }
+            .image-list a:hover {
+                text-decoration: underline;
+            }
+            .button-container {
+                margin-top: 20px;
+            }
+            .button {
+                display: inline-block;
+                padding: 10px 15px;
+                background-color: #28a745;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+            .button:hover {
+                background-color: #218838;
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin-top: 20px;
+                border: 1px solid #ddd;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Generated Data Analysis Images</h1>
+        <div class="button-container">
+            <a href="/generate_and_show" class="button"
+                >Generate/Regenerate Images</a
+            >
+            <a href="/search" class="button" style="background-color: #007bff"
+                >Go to Film Search</a
+            >
+        </div>
+        <p>Click on an image name to view it:</p>
+        {% if image_files %}
+        <ul class="image-list">
+            {% for image in image_files %}
+            <li>
+                <a href="{{ url_for('display_image', filename=image) }}"
+                    >{{ image }}</a
+                >
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>
+            No images found. Click "Generate/Regenerate Images" to create them.
+        </p>
+        {% endif %}
+    </body>
+</html>
