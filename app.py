@@ -11,12 +11,6 @@ app = Flask(__name__)
 IMAGE_DIR = 'img'
 MERGED_DATA = None
 
-if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-    with app.app_context():
-        MERGED_DATA = get_merged_data()
-        if MERGED_DATA.empty:
-            print("Warning: Merged data is empty. Recommendation features may not work.")
-
 @app.route('/')
 def index():
     print(f"Current working directory: {os.getcwd()}")
