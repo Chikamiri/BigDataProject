@@ -9,7 +9,7 @@ from main import phase2, get_merged_data, search_films, recommend
 app = Flask(__name__)
 
 IMAGE_DIR = 'img'
-MERGED_DATA = None
+MERGED_DATA = get_merged_data()
 
 @app.route('/')
 def index():
